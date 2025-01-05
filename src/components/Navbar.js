@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "react-scroll";
 
 const NavBar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch("https://localhost:7045/api/service/navbar");
+        const data = await response.json();
+        setServices(data); // Ustawienie pobranych usług w stanie
+      } catch (error) {
+        console.error("Błąd podczas pobierania usług:", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -18,22 +33,29 @@ const NavBar = () => {
     <nav className="p-6">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center">
-        <RouterLink to="/" className="flex items-center">
-          <img
-            src="./images/foam-experts-logo.png"
-            alt="Logo"
-            className="h-14 w-auto"
-          />
-        </RouterLink>
+          <RouterLink to="/" className="flex items-center">
+            <img src="./images/logo.png" alt="Logo" className="h-14 w-auto" />
+          </RouterLink>
         </div>
 
         <div className="hidden md:flex space-x-10">
-          <a
-            href="/"
+          <RouterLink
+            to="/"
             className="text-black font-bold transition duration-300 hover:bg-custom-blue hover:text-white rounded-lg py-2 px-4"
           >
             Strona Główna
-          </a>
+          </RouterLink>
+
+          <Link
+            to="about"
+            spy={true}
+            smooth={true}
+            offset={-70}
+            duration={500}
+            className="text-black font-bold transition duration-300 hover:bg-custom-blue hover:text-white rounded-lg py-2 px-4"
+          >
+            O nas
+          </Link>
 
           <Link
             to="services"
@@ -46,7 +68,7 @@ const NavBar = () => {
             Usługi
           </Link>
 
-          {/* Dropdown button for Packages */}
+          {/* Dropdown menu dla pakietów */}
           <div className="relative group">
             <button
               onClick={toggleDropdown}
@@ -69,34 +91,23 @@ const NavBar = () => {
               </svg>
             </button>
 
-            {/* Dropdown menu */}
             {isDropdownOpen && (
-              <div className="absolute top-12  z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+              <div className="absolute top-12 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
                 <ul className="p-2 text-sm">
-                  <li>
-                    <a
-                      href="/paint-correction"
-                      className="block px-4 py-2 hover:bg-custom-blue rounded-lg  text-gray-700 hover:text-white"
-                    >
-                      Korekta lakieru
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-custom-blue rounded-lg  text-gray-700 hover:text-white"
-                    >
-                      Detailing zewnętrzny i wewnętrzny
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/ceramic"
-                      className="block px-4 py-2 hover:bg-custom-blue rounded-lg  text-gray-700 hover:text-white"
-                    >
-                      Powłoka ceramiczna
-                    </a>
-                  </li>
+                  {services.length > 0 ? (
+                    services.map((service) => (
+                      <li key={service.path}>
+                        <RouterLink
+                          to={service.path}
+                          className="block px-4 py-2 hover:bg-custom-blue rounded-lg text-gray-700 hover:text-white"
+                        >
+                          {service.title}
+                        </RouterLink>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="px-4 py-2 text-gray-500">Brak usług</li>
+                  )}
                 </ul>
               </div>
             )}
@@ -114,17 +125,6 @@ const NavBar = () => {
           </Link>
 
           <Link
-            to="about"
-            spy={true}
-            smooth={true}
-            offset={-70}
-            duration={500}
-            className="text-black font-bold transition duration-300 hover:bg-custom-blue hover:text-white rounded-lg py-2 px-4"
-          >
-            O nas
-          </Link>
-
-          <Link
             to="contact"
             spy={true}
             smooth={true}
@@ -136,12 +136,9 @@ const NavBar = () => {
           </Link>
         </div>
 
-        {/* Responsive Menu Button for Small Screens */}
+        {/* Przycisk menu mobilnego */}
         <div className="md:hidden">
-          <button
-            className="text-black focus:outline-none"
-            onClick={toggleMenu}
-          >
+          <button className="text-black focus:outline-none" onClick={toggleMenu}>
             <svg
               className="h-6 w-6"
               fill="none"
@@ -168,81 +165,6 @@ const NavBar = () => {
           </button>
         </div>
       </div>
-
-      {/* Responsive Menu for Small Screens */}
-      {isMenuOpen && (
-        <div className="md:hidden mt-2">
-          <a
-            href="/"
-            className="block text-center text-black hover:text-gray-300 py-2"
-          >
-            Home
-          </a>
-          <Link
-            to="services"
-            spy={true}
-            smooth={true}
-            offset={-70}
-            duration={500}
-            className="block text-center text-black hover:text-gray-300 py-2"
-          >
-            Services
-          </Link>
-
-          {/* Center the "Packages" link and dropdown menu in the responsive menu */}
-          <div className="relative group text-center">
-            <button
-              onClick={toggleDropdown}
-              className="block mx-auto text-black hover:text-gray-300 py-2 relative"
-            >
-              Packages
-            </button>
-
-            {/* Dropdown menu */}
-            {isDropdownOpen && (
-              <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-50 bg-gray-200 divide-y divide-gray-100 rounded-lg shadow w-44">
-                <ul className="p-2 text-sm">
-                  <li>
-                    <RouterLink
-                      to="/paint-correction"
-                      className="block px-4 py-2 hover:bg-custom-blue rounded-lg  text-gray-700 hover:text-white"
-                    >
-                      Paint Correction
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-custom-blue rounded-lg  text-gray-700 hover:text-white"
-                    >
-                      Exterior & Interior Detailing
-                    </a>
-                  </li>
-                  <li>
-                    <RouterLink
-                      to="/ceramic"
-                      className="block px-4 py-2 hover:bg-custom-blue rounded-lg  text-gray-700 hover:text-white"
-                    >
-                      Ceramic Coating
-                    </RouterLink>
-                  </li>
-                </ul>
-              </div>
-            )}
-            <Link
-              to="gallery"
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={500}
-              className="block text-center text-black hover:text-gray-300 py-2"
-            >
-              Gallery
-            </Link>
-          </div>
-          {/* Add more responsive menu links as needed */}
-        </div>
-      )}
     </nav>
   );
 };

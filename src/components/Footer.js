@@ -56,7 +56,7 @@ const Footer = () => {
         </nav>
         <div class="flex justify-center mt-8 space-x-6">
           <a
-            href="mailto:info@foamexdetailing.com"
+            href="mailto:"
             class="text-gray-400 hover:text-custom-blue"
           >
             <span class="sr-only">Email</span>
@@ -76,7 +76,7 @@ const Footer = () => {
           </a>
 
           <a
-            href="https://www.instagram.com/foam_experts/"
+            href="https://www.instagram.com"
             class="text-gray-400 hover:text-custom-blue"
           >
             <span class="sr-only">Instagram</span>

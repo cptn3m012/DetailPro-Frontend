@@ -9,6 +9,7 @@ import Ceramic from "./components/pages/Ceramic";
 import Contact from "./components/pages/Contact";
 import Home from "./components/pages/Home";
 import PaintCorrection from "./components/pages/PaintCorrection";
+import ServicePage from "./components/pages/ServicePage";
 
 function App() {
   return (
@@ -18,9 +19,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/paint-correction" element={<PaintCorrection />} />
-          <Route path="/ceramic" element={<Ceramic />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/:path" element={<ServicePage />} />
         </Routes>
       </div>
       <Footer />

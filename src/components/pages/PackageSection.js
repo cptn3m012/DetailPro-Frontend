@@ -1,4 +1,3 @@
-// PackageSection.js
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -44,7 +43,7 @@ const PackageSection = ({
     <img
       src={imagePath}
       alt={alt}
-      className="w-full h-52 object-cover mb-4 rounded-xl"
+      className="w-full h-60 object-cover mb-4 rounded-xl"
     />
     <h2 className="flex items-center text-2xl font-semibold mb-2">
       {(title === "Entry Level Package" || title === "Standard Package" || title === "Premium Package" || title === "Elite Package") && (

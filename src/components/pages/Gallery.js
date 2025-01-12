@@ -63,7 +63,6 @@ const Gallery = () => {
           </>
         )}
 
-        {/* Modal - X zawsze widoczny */}
         {selectedImageIndex !== null && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 p-6">
             <div className="relative max-w-screen-lg max-h-screen lg:p-10">

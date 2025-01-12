@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-scroll";  // Import Link z react-scroll
+import { Link } from "react-scroll";  
 
 const About = () => {
   const [aboutData, setAboutData] = useState({

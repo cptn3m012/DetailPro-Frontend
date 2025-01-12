@@ -1,4 +1,3 @@
-// DownArrow.js
 import React from "react";
 
 const DownArrow = () => (
